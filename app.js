@@ -3,8 +3,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const passport = require('passport');
+const LocalStrategy  = require('passport-local').Strategy;
+const session        = require("express-session");
+
 
 var indexRouter = require('./routes/index');
+var authRouter = require('./routes/auth');
 var usersRouter = require('./routes/users');
 
 var app = express();
@@ -20,6 +25,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/', authRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
@@ -37,5 +43,41 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// Authenticate user via passport
+passport.use('local-login', new LocalStrategy({
+  passReqToCallback : true,
+  usernameField: 'email'
+}, 
+function (req, email, password, next) {
+  User.findOne({
+    email: email
+  }, function (err, user) {
+      console.log(err)
+      if (err) {
+        console.log("There was an error")
+        return next(err);
+      }
+      if (!user) {
+        console.log("User does not exist")
+        // return next(null, false, {
+          res.render("auth/login", {
+            msg:{
+              "error": 'You have enterred either an incorrect email or an incorrect password'
+            }
+          });
+          return;
+        // });
+      }
+      if (!bcrypt.compareSync(password, user.password)) {
+        return next(null, false, {
+          message: "Incorrect password"
+        });
+      }
+      return next(null, user);
+    });
+  }
+));
+
 
 module.exports = app;

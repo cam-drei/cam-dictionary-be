@@ -2,8 +2,11 @@ var express = require('express');
 var authRouter = express.Router();
 const bcrypt = require("bcrypt");
 const passport = require('passport');
-var nodemailer = require("nodemailer");
+// var nodemailer = require("nodemailer");
 const crypto = require('crypto');
+
+const LocalStrategy  = require('passport-local').Strategy;
+const session        = require("express-session");
 
 const User = require('../models/user');
 
