@@ -9,6 +9,7 @@ const LocalStrategy  = require('passport-local').Strategy;
 const session        = require("express-session");
 
 const User = require('../models/user');
+const Workout = require('../models/workout');
 
 const {
     ensureLoggedIn,
@@ -103,5 +104,17 @@ function generateHashedPassword(password) {
   hashPass = bcrypt.hashSync(password, salt);
   return hashPass;
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports = authRouter;
