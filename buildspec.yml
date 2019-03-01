@@ -1,0 +1,23 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login --no-include-email --region us-east-1)
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t fitapp-node .
+      - docker tag fitapp-node:latest 318200697664.dkr.ecr.us-east-1.amazonaws.com/fitapp-node:latest
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push 318200697664.dkr.ecr.us-east-1.amazonaws.com/fitapp-node:latest
+      - aws s3 sync s3://fitapp-node-development ./aws-build --region us-east-1
+artifacts:
+  files:
+    - '**/*'
+  base-directory: aws-build

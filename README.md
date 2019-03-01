@@ -1,11 +1,20 @@
-# fitapp-work
-A smart workout generator.
+# FITAPP
 
-## Install Dependencies
-`npm install`
+## Installation
 
-## Run MongoDB 
-`mongod`
+```bash
+$ npm install
+```
 
-## Run App Locally
-`npm start`
+## Running the app
+
+```bash
+# development
+$ npm run start
+
+# watch mode
+$ npm run start:dev
+
+# production mode
+$ npm run start:prod
+```
