@@ -1,0 +1,8 @@
+type Mutation {
+  verifyToken(token: String): AuthData
+}
+
+type AuthData {
+  uid: String
+}
+
