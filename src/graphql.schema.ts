@@ -3,8 +3,23 @@ export class CreateCatInput {
     age?: number;
 }
 
-export class AuthData {
-    uid?: string;
+export class PhoneLoginInput {
+    phone: string;
+    password: string;
+}
+
+export class SendPasswordToPhoneInput {
+    phone: string;
+}
+
+export class SocialLoginInput {
+    phone?: string;
+    name: string;
+    email?: string;
+    gender?: string;
+    birthday?: number;
+    providerUid: string;
+    providerAccessToken: string;
 }
 
 export class Cat {
@@ -14,7 +29,13 @@ export class Cat {
 }
 
 export abstract class IMutation {
-    abstract verifyToken(token?: string): AuthData | Promise<AuthData>;
+    abstract loginByFacebook(params?: SocialLoginInput): User | Promise<User>;
+
+    abstract loginByGoogle(params?: SocialLoginInput): User | Promise<User>;
+
+    abstract sendPasswordToPhone(params?: SendPasswordToPhoneInput): User | Promise<User>;
+
+    abstract loginByPhone(params?: PhoneLoginInput): User | Promise<User>;
 
     abstract createCat(createCatInput?: CreateCatInput): Cat | Promise<Cat>;
 }
@@ -29,4 +50,21 @@ export abstract class IQuery {
 
 export abstract class ISubscription {
     abstract catCreated(): Cat | Promise<Cat>;
+}
+
+export class User {
+    id: string;
+    phone?: string;
+    name?: string;
+    email?: string;
+    gender?: string;
+    birthday?: number;
+    heightUnit?: string;
+    heightValue?: number;
+    weightUnit?: string;
+    weightValue?: string;
+    fitnessGoal?: string;
+    provider: string;
+    providerUid?: string;
+    providerAccessToken?: string;
 }

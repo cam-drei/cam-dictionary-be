@@ -1,0 +1,16 @@
+type User {
+  id: String!
+  phone: String
+  name: String
+  email: String
+  gender: String
+  birthday: Int
+  heightUnit: String
+  heightValue: Int
+  weightUnit: String
+  weightValue: String
+  fitnessGoal: String
+  provider: String!
+  providerUid: String
+  providerAccessToken: String
+}

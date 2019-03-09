@@ -1,8 +1,25 @@
 type Mutation {
-  verifyToken(token: String): AuthData
+  loginByFacebook(params: SocialLoginInput): User
+  loginByGoogle(params: SocialLoginInput): User
+  sendPasswordToPhone(params: SendPasswordToPhoneInput): User
+  loginByPhone(params: PhoneLoginInput): User
 }
 
-type AuthData {
-  uid: String
+input SocialLoginInput {
+  phone: String
+  name: String!
+  email: String
+  gender: String
+  birthday: Int
+  providerUid: String!
+  providerAccessToken: String!
 }
 
+input SendPasswordToPhoneInput {
+  phone: String!
+}
+
+input PhoneLoginInput {
+  phone: String!
+  password: String!
+}

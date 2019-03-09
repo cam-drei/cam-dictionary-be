@@ -6,6 +6,11 @@
 $ npm install
 ```
 
+## Configuration
+
+- Copy file `.env-sample` and rename to `.env`
+- Update configuration values on `.env` file
+
 ## Running the app
 
 ```bash
