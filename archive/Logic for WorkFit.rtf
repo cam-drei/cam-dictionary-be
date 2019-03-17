@@ -1,0 +1,94 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf600
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww25320\viewh13520\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \
+User workout options / Key Parameters\
+	Class   -   Cardio, Plyo, Stretch, Weights\
+	Duration - 15, 30, 45, 60\
+	Intensity - Low, Medium, High, Extreme\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97BEGIN LOGIC \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97Sub 1 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+\
+Sub Class()  \
+	Select Class\
+		Case Cardio 		// (provides warmup, workout and cool down)\
+			// Only Display Workouts that fit this Class\
+			Call sub Intensity\
+		Case Plyometrics\
+			// Only Display Workouts that fit this Class\
+			Call sub Intensity\
+		Case Stretch\
+			// Only Display Workouts that fit this Class\
+			Call sub Intensity\
+		Case Weights\
+			// Only Display Workouts that fit this Class\
+			Call sub Intensity\
+		End Select\
+	End Select\
+\
+End Sub\
+\
+// DB now consists of workouts that fit Class that has been selected\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97Sub 2\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+// Further refine workout selection using BMI & Intensity statement below\
+\
+sub Intensity()	\
+	Select Intensity\
+		Case Low\
+			Select Duration\
+				Case 15\
+					// Collection of workouts that fit the selected class, intensity and duration\
+				Case 30\
+					// Collection of workouts that fit the selected class, intensity and duration\
+				Case 45\
+					// Collection of workouts that fit the selected class, intensity and duration\
+				Case 60\
+					// Collection of workouts that fit the selected class, intensity and duration\
+			End Select		\
+		Case Medium\
+			Select Duration\
+				Case 15\
+					// Collection of workouts that fit the selected class, intensity and duration\
+				Case 30\
+					// Collection of workouts that fit the selected class, intensity and duration\
+				Case 45\
+					// Collection of workouts that fit the selected class, intensity and duration\
+				Case 60\
+					// Collection of workouts that fit the selected class, intensity and duration\
+			End Select	\
+		Case High\
+			Select Duration\
+				Case 15\
+					// Collection of workouts that fit the selected class, intensity and duration\
+				Case 30\
+					// Collection of workouts that fit the selected class, intensity and duration\
+				Case 45\
+					// Collection of workouts that fit the selected class, intensity and duration\
+				Case 60\
+					// Collection of workouts that fit the selected class, intensity and duration\
+			End Select			\
+		Case Extreme\
+			Select Duration\
+				Case 15\
+					// Collection of workouts that fit the selected class, intensity and duration\
+				Case 30\
+					// Collection of workouts that fit the selected class, intensity and duration\
+				Case 45\
+					// Collection of workouts that fit the selected class, intensity and duration\
+				Case 60\
+					// Collection of workouts that fit the selected class, intensity and duration\
+			End Select	\
+	End Select\
+End Sub\
+\
+}
