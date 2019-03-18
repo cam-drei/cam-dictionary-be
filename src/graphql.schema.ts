@@ -17,9 +17,22 @@ export class SocialLoginInput {
     name: string;
     email?: string;
     gender?: string;
-    birthday?: number;
+    birthday?: string;
     providerUid: string;
     providerAccessToken: string;
+    provider?: string;
+}
+
+export class UpdateUserInput {
+    name?: string;
+    email?: string;
+    gender?: string;
+    birthday?: string;
+    heightUnit?: string;
+    heightValue?: number;
+    weightUnit?: string;
+    weightValue?: number;
+    fitnessGoal?: string;
 }
 
 export class Cat {
@@ -38,12 +51,16 @@ export abstract class IMutation {
     abstract loginByPhone(params?: PhoneLoginInput): User | Promise<User>;
 
     abstract createCat(createCatInput?: CreateCatInput): Cat | Promise<Cat>;
+
+    abstract updateUser(user?: UpdateUserInput): User | Promise<User>;
 }
 
 export abstract class IQuery {
     abstract getCats(): Cat[] | Promise<Cat[]>;
 
     abstract cat(id: string): Cat | Promise<Cat>;
+
+    abstract user(): User | Promise<User>;
 
     abstract temp__(): boolean | Promise<boolean>;
 }
@@ -58,13 +75,14 @@ export class User {
     name?: string;
     email?: string;
     gender?: string;
-    birthday?: number;
+    birthday?: string;
     heightUnit?: string;
     heightValue?: number;
     weightUnit?: string;
-    weightValue?: string;
+    weightValue?: number;
     fitnessGoal?: string;
     provider: string;
     providerUid?: string;
     providerAccessToken?: string;
+    accessToken?: string;
 }

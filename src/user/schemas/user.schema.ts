@@ -6,11 +6,19 @@ export const UserSchema = new Schema({
   name: String,
   email: String,
   gender: String,
-  birthday: Number,
+  birthday: String,
+  heightUnit: String,
+  heightValue: Number,
+  weightUnit: String,
+  weightValue: Number,
   fitnessGoal: String,
   provider: String,
   providerAccessToken: String,
   providerUid: String,
+});
+
+UserSchema.set('toJSON', {
+  virtuals: true,
 });
 
 export interface IUser extends Document {
@@ -19,9 +27,16 @@ export interface IUser extends Document {
   name?: string;
   email?: string;
   gender?: string;
-  birthday?: number;
+  birthday?: string;
   fitnessGoal?: string;
   provider: string;
   providerAccessToken?: string;
   providerUid?: string;
+  _id: string;
+}
+
+export enum USER_PROVIDER {
+  PHONE = 'Phone',
+  FACEBOOK = 'Facebook',
+  GOOGLE = 'Google',
 }

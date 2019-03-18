@@ -10,9 +10,10 @@ input SocialLoginInput {
   name: String!
   email: String
   gender: String
-  birthday: Int
+  birthday: String
   providerUid: String!
   providerAccessToken: String!
+  provider: String
 }
 
 input SendPasswordToPhoneInput {

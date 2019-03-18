@@ -1,53 +1,52 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { SocialLoginDto } from '../auth/dto/social-login.dto';
 import { SendPasswordToPhoneDto } from '../auth/dto/send-password-to-phone.dto';
-import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { IUser } from './schemas/user.schema';
-import { Provider } from '../common/enums/provider.enum';
-
+import { IUser, USER_PROVIDER } from './schemas/user.schema';
+import { SocialLoginInput, UpdateUserInput } from 'src/graphql.schema';
+import { mongo } from 'mongoose';
 @Injectable()
 export class UserService {
-  constructor(@InjectModel('User') private readonly UserModel: Model<IUser>) {}
+  constructor(@Inject('User') private readonly UserModel: Model<IUser>) {}
 
-  async getByPhoneProviderInfo(phone: string): Promise<IUser> {
-    return await this.UserModel.findOne({
-      provider: Provider.Phone,
+  async getProfileBySocial(socialLogin: SocialLoginInput): Promise<IUser> {
+    const existedUser = await this.UserModel.findOne({
+      provider: socialLogin.provider,
+      providerUid: socialLogin.providerUid,
+    }).exec();
+    return existedUser ? existedUser.toJSON() : existedUser;
+  }
+
+  async getProfileById(id: string): Promise<IUser> {
+    const existedUser = await this.UserModel.findById(id).exec();
+    return existedUser ? existedUser.toJSON() : existedUser;
+  }
+
+  async createSocialProfile(socialProfile: SocialLoginDto): Promise<IUser> {
+    const userModel = new this.UserModel(socialProfile);
+    const newUser = await userModel.save();
+    return newUser.toJSON();
+  }
+
+  async getProfileByPhone(phone: string): Promise<IUser> {
+    const existedUser = await this.UserModel.findOne({
       phone,
-    }).exec();
-  }
-
-  async getOrCreateBySocialProfile(
-    socialProfile: SocialLoginDto,
-  ): Promise<IUser> {
-    const existedUser = await this.UserModel.findOne({
-      provider: socialProfile.provider,
-      providerUid: socialProfile.providerUid,
+      provider: USER_PROVIDER.PHONE,
     }).exec();
 
-    if (existedUser) {
-      return existedUser;
-    }
-
-    const newUser = new this.UserModel(socialProfile);
-    return await newUser.save();
+    return existedUser ? existedUser.toJSON() : existedUser;
   }
 
-  async getOrCreateByPhone(params: SendPasswordToPhoneDto): Promise<IUser> {
-    const existedUser = await this.UserModel.findOne({
-      phone: params.phone,
-      provider: params.provider,
-    }).exec();
-
-    if (existedUser) {
-      return existedUser;
-    }
-
-    const newUser = new this.UserModel(params);
-    return await newUser.save();
+  async createPhoneProfile(params: SendPasswordToPhoneDto): Promise<IUser> {
+    const userModel = new this.UserModel(params);
+    const newUser = await userModel.save();
+    return newUser.toJSON();
   }
 
-  async update(user: IUser): Promise<IUser> {
-    return await this.UserModel.updateOne({ _id: user.id }, user);
+  async updateUserProfile(id: string, user: UpdateUserInput): Promise<IUser> {
+    const _id = new mongo.ObjectId(id);
+    await this.UserModel.findOneAndUpdate({ _id }, user);
+    const updatedUser = await this.UserModel.findById(id);
+    return updatedUser ? updatedUser.toJSON() : updatedUser;
   }
 }

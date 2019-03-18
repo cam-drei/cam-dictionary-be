@@ -1,15 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { IUser } from '../user/schemas/user.schema';
 import { ITemporaryPassword } from './schemas/temporary-password.schema';
 import { SmsService } from '../common/sms.service';
-import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 @Injectable()
 export class TemporaryPasswordService {
   constructor(
     private readonly smsService: SmsService,
-    @InjectModel('TemporaryPassword')
+    @Inject('TemporaryPassword')
     private readonly PasswordModel: Model<ITemporaryPassword>,
   ) {}
 

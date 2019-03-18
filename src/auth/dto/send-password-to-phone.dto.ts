@@ -1,11 +1,11 @@
 import { SendPasswordToPhoneInput } from '../../graphql.schema';
 import { IsNotEmpty, IsPhoneNumber } from 'class-validator';
-import { Provider } from '../../common/enums/provider.enum';
+import { USER_PROVIDER } from 'src/user/schemas/user.schema';
 
 export class SendPasswordToPhoneDto extends SendPasswordToPhoneInput {
   @IsNotEmpty()
   @IsPhoneNumber('US')
   readonly phone: string;
 
-  provider: Provider;
+  provider: USER_PROVIDER;
 }

@@ -1,6 +1,6 @@
 import { SocialLoginInput } from '../../graphql.schema';
 import { IsNotEmpty } from 'class-validator';
-import { Provider } from '../../common/enums/provider.enum';
+import { USER_PROVIDER } from 'src/user/schemas/user.schema';
 
 export class SocialLoginDto extends SocialLoginInput {
   readonly phone: string;
@@ -11,9 +11,9 @@ export class SocialLoginDto extends SocialLoginInput {
   readonly email: string;
 
   readonly gender: string;
-  readonly birthday: number;
+  readonly birthday: string;
 
-  provider: Provider;
+  provider: USER_PROVIDER;
 
   @IsNotEmpty()
   readonly providerUid: string;

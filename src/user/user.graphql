@@ -1,16 +1,37 @@
+type Query {
+  user: User
+}
+
+type Mutation {
+  updateUser(user: UpdateUserInput): User
+}
+
+input UpdateUserInput {
+  name: String
+  email: String
+  gender: String
+  birthday: String
+  heightUnit: String
+  heightValue: Int
+  weightUnit: String
+  weightValue: Int
+  fitnessGoal: String
+}
+
 type User {
   id: String!
   phone: String
   name: String
   email: String
   gender: String
-  birthday: Int
+  birthday: String
   heightUnit: String
   heightValue: Int
   weightUnit: String
-  weightValue: String
+  weightValue: Int
   fitnessGoal: String
   provider: String!
   providerUid: String
   providerAccessToken: String
+  accessToken: String
 }

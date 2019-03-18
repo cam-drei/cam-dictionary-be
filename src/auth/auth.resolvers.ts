@@ -5,8 +5,8 @@ import { SendPasswordToPhoneDto } from './dto/send-password-to-phone.dto';
 import { PhoneLoginDto } from './dto/phone-login.dto';
 import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
-import { Provider } from '../common/enums/provider.enum';
 import { TemporaryPasswordService } from './temporary-password.service';
+import { USER_PROVIDER } from 'src/user/schemas/user.schema';
 
 @Resolver('Auth')
 export class AuthResolvers {
@@ -18,29 +18,41 @@ export class AuthResolvers {
 
   @Mutation('loginByFacebook')
   async loginByFacebook(@Args('params') args: SocialLoginDto): Promise<User> {
-    args.provider = Provider.Facebook;
-    return await this.userService.getOrCreateBySocialProfile(args);
+    args.provider = USER_PROVIDER.FACEBOOK;
+
+    let user = await this.userService.getProfileBySocial(args);
+    if (!user) {
+      user = await this.userService.createSocialProfile(args);
+    }
+    return this.authService.generateUserWithAccessToken(user);
   }
 
   @Mutation('loginByGoogle')
   async loginByGoogle(@Args('params') args: SocialLoginDto): Promise<User> {
-    args.provider = Provider.Google;
-    return await this.userService.getOrCreateBySocialProfile(args);
+    args.provider = USER_PROVIDER.GOOGLE;
+    let user = await this.userService.getProfileBySocial(args);
+    if (!user) {
+      user = await this.userService.createSocialProfile(args);
+    }
+    return this.authService.generateUserWithAccessToken(user);
   }
 
   @Mutation('sendPasswordToPhone')
   async sendPasswordToPhone(
     @Args('params') params: SendPasswordToPhoneDto,
   ): Promise<User> {
-    params.provider = Provider.Phone;
-    const user = await this.userService.getOrCreateByPhone(params);
-
+    params.provider = USER_PROVIDER.PHONE;
+    let user = await this.userService.getProfileByPhone(params.phone);
+    if (!user) {
+      user = await this.userService.createPhoneProfile(params);
+    }
     await this.temporaryPasswordService.generateTemporaryPassword(user);
     return user;
   }
 
   @Mutation('loginByPhone')
   async loginByPhone(@Args('params') params: PhoneLoginDto): Promise<User> {
-    return await this.authService.loginByPhone(params);
+    const user = await this.authService.loginByPhone(params);
+    return this.authService.generateUserWithAccessToken(user);
   }
 }

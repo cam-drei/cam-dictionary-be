@@ -9,10 +9,6 @@ import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-    }),
     GraphQLModule.forRoot({
       typePaths: ['./**/*.graphql'],
       installSubscriptionHandlers: true,
@@ -20,6 +16,7 @@ import { CommonModule } from './common/common.module';
         path: join(process.cwd(), 'src/graphql.schema.ts'),
         outputAs: 'class',
       },
+      context: ({ req }) => ({ req }),
     }),
     CatsModule,
     AuthModule,

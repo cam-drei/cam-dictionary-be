@@ -32,7 +32,7 @@ export const TemporaryPasswordSchema = new Schema({
 /**
  * Hook a pre save method to hash the password
  */
-TemporaryPasswordSchema.pre('save', function(next) {
+TemporaryPasswordSchema.pre<any>('save', function(next) {
   if (this.password && this.isModified('password')) {
     this.salt = crypto.randomBytes(16).toString('base64');
     this.password = this.hashPassword(this.password);
