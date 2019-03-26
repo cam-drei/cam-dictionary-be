@@ -35,6 +35,12 @@ export class UpdateUserInput {
     fitnessGoal?: string;
 }
 
+export class WorkoutGeneratorInput {
+    duration: string;
+    intensity: string;
+    class: string;
+}
+
 export class Cat {
     id?: number;
     name?: string;
@@ -62,6 +68,8 @@ export abstract class IQuery {
 
     abstract user(): User | Promise<User>;
 
+    abstract generateWorkout(params?: WorkoutGeneratorInput): WorkoutGeneratorResultItem[] | Promise<WorkoutGeneratorResultItem[]>;
+
     abstract temp__(): boolean | Promise<boolean>;
 }
 
@@ -85,4 +93,24 @@ export class User {
     providerUid?: string;
     providerAccessToken?: string;
     accessToken?: string;
+}
+
+export class Workout {
+    id?: string;
+    index?: string;
+    workouts?: string;
+    muscleGroup?: string;
+    class?: string;
+    duration?: string;
+    targetBMI?: string;
+    equipment?: string;
+    heartRate?: string;
+    medium?: string;
+    intensity?: string;
+}
+
+export class WorkoutGeneratorResultItem {
+    warmup?: Workout;
+    main?: Workout;
+    coolDown?: Workout;
 }

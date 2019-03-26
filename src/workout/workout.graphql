@@ -1,0 +1,29 @@
+type Query {
+  generateWorkout(params: WorkoutGeneratorInput): [WorkoutGeneratorResultItem]
+}
+
+input WorkoutGeneratorInput {
+  duration: String!
+  intensity: String!
+  class: String!
+}
+
+type Workout {
+  id: String
+  index: String
+  workouts: String
+  muscleGroup: String
+  class: String
+  duration: String
+  targetBMI: String
+  equipment: String
+  heartRate: String
+  medium: String
+  intensity: String
+}
+
+type WorkoutGeneratorResultItem {
+  warmup: Workout
+  main: Workout
+  coolDown: Workout
+}
