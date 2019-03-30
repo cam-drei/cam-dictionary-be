@@ -1,14 +1,14 @@
 // (1)  BMR Formula
 {	
 	IF (Gender="Female”, 
-		BMR = (10 × weight in kg) + (6.25 × height in cm) - (5 × age in years) - 161) * Goal
+		BMR = (10 × weight in kg) + (6.25 × height in cm / 2.54) - (5 × age in years) - 161) * Goal
 			For Goal {
 				Lose = 0.2
 				Stay = 0.0
 				Gain = -0.2
 				}
 	IF (Gender=“Male”, 
-		BMR = (10 × weight in kg) + (6.25 × height in cm) - (5 × age in years) + 5) * Goal
+		BMR = (10 × weight in kg) + (6.25 × height in cm / 2.54) - (5 × age in years) + 5) * Goal
 			For Goal {
 				Lose = 0.2
 				Stay = 0.0
