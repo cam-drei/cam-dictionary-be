@@ -47,6 +47,19 @@ export class Cat {
     age?: number;
 }
 
+export class EatFit {
+    carbs: number;
+    fat: number;
+    protein: number;
+    meals?: Meal[];
+}
+
+export class Meal {
+    name: string;
+    calories: number;
+    time: string;
+}
+
 export abstract class IMutation {
     abstract loginByFacebook(params?: SocialLoginInput): User | Promise<User>;
 
@@ -65,6 +78,8 @@ export abstract class IQuery {
     abstract getCats(): Cat[] | Promise<Cat[]>;
 
     abstract cat(id: string): Cat | Promise<Cat>;
+
+    abstract generateEatFit(): EatFit | Promise<EatFit>;
 
     abstract user(): User | Promise<User>;
 

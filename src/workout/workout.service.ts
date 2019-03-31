@@ -18,9 +18,7 @@ export class WorkoutService {
   public async generateWorkout(
     input: WorkoutGeneratorInput,
   ): Promise<WorkoutGeneratorResultItem[]> {
-    const { duration } = input;
     const workoutResult = await this.WorkoutModel.find(input).exec();
-
     if (!workoutResult) return undefined;
     const convertedResult = workoutResult.map((item: IWorkout) =>
       item.toJSON(),
@@ -36,14 +34,18 @@ export class WorkoutService {
   }
 
   private getRandomWorkout(input: Workout[], num: number) {
-    const randomWorkouts = [];
-    let i: number;
-    for (i = 0; i < num; i++) {
-      const item = input[Math.floor(Math.random() * input.length)];
-      randomWorkouts.push(item);
-    }
+    const randomWorkouts = this.shuffleArray(input);
 
-    return randomWorkouts;
+    if (randomWorkouts.length === num) {
+      return randomWorkouts;
+    } else if (randomWorkouts.length > num) {
+      return randomWorkouts.slice(0, num - 1);
+    } else {
+      while (randomWorkouts.length < num) {
+        randomWorkouts.push(undefined);
+      }
+      return randomWorkouts;
+    }
   }
 
   private groupWorkoutGenerator(
@@ -51,10 +53,17 @@ export class WorkoutService {
   ): WorkoutGeneratorResultItem[] {
     const result = [] as WorkoutGeneratorResultItem[];
 
-    result.push({ warmup: input[0], coolDown: input[1], main: input[2] });
-    result.push({ warmup: input[3], coolDown: input[4], main: input[5] });
-    result.push({ warmup: input[6], coolDown: input[7], main: input[8] });
+    result.push({ warmup: input[0], main: input[1], coolDown: input[2] });
+    result.push({ warmup: input[3], main: input[4], coolDown: input[5] });
+    result.push({ warmup: input[6], main: input[7], coolDown: input[8] });
 
     return result;
+  }
+
+  private shuffleArray([...input]: Workout[]) {
+    for (let i = input.length; i > 0; --i)
+      // tslint:disable-next-line:no-bitwise
+      input.push(input.splice((Math.random() * i) | 0, 1)[0]);
+    return input;
   }
 }

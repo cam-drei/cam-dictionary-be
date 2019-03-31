@@ -1,0 +1,16 @@
+type Query {
+  generateEatFit: EatFit
+}
+
+type EatFit {
+  carbs: Float!
+  fat: Float!
+  protein: Float!
+  meals: [Meal]!
+}
+
+type Meal {
+  name: String!
+  calories: Int!
+  time: String!
+}

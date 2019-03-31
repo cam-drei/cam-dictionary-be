@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CommonModule } from './common/common.module';
 import { WorkoutModule } from './workout/workout.module';
+import { EatFitModule } from './eatfit/eatfit.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { WorkoutModule } from './workout/workout.module';
     UserModule,
     CommonModule,
     WorkoutModule,
+    EatFitModule,
   ],
 })
 export class ApplicationModule {}
