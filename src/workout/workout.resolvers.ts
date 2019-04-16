@@ -9,7 +9,6 @@ import {
   GqlExecutionContext,
 } from '@nestjs/graphql';
 import { GqlAuthGuard } from 'src/auth/gqlauth.guard';
-import { JWTAuth } from 'src/auth/auth.service';
 import { WorkoutGeneratorInput, Workout, WorkoutGeneratorResultItem } from 'src/graphql.schema';
 
 @Resolver('Workout')

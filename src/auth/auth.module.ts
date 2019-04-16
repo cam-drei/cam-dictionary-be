@@ -11,6 +11,7 @@ import { GqlAuthGuard } from './gqlauth.guard';
 import { HttpStrategy } from './http.strategy';
 import { temporaryPasswordProviders } from './temporary-password.providers';
 import { DatabaseModule } from '../database/database.module';
+import { TokenService } from './token.service';
 
 @Module({
   providers: [
@@ -20,6 +21,7 @@ import { DatabaseModule } from '../database/database.module';
     ...temporaryPasswordProviders,
     GqlAuthGuard,
     HttpStrategy,
+    TokenService,
   ],
   imports: [
     PassportModule.register({ defaultStrategy: 'bearer' }),
@@ -28,6 +30,6 @@ import { DatabaseModule } from '../database/database.module';
     CommonModule,
     DatabaseModule,
   ],
-  exports: [GqlAuthGuard],
+  exports: [GqlAuthGuard, TokenService],
 })
 export class AuthModule {}

@@ -1,4 +1,5 @@
 import { Document, Schema } from 'mongoose';
+import { TokenService } from 'src/auth/token.service';
 
 export const UserSchema = new Schema({
   uid: String,
@@ -15,10 +16,29 @@ export const UserSchema = new Schema({
   provider: String,
   providerAccessToken: String,
   providerUid: String,
+  isAcceptAgreement: {
+    type: Boolean,
+    default: false,
+  },
+  emailConfirmed: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 UserSchema.set('toJSON', {
   virtuals: true,
+});
+
+/**
+ * Hook a pre save method to send confirmation email
+ */
+UserSchema.pre<any>('save', function(next) {
+  if (this.email && this.isModified('email')) {
+    this.emailConfirmed = false;
+  }
+
+  next();
 });
 
 UserSchema.virtual('heightInCM').get(function() {
@@ -44,6 +64,11 @@ UserSchema.virtual('ageInYear').get(function() {
   return Math.floor((now - timestamp) / 31536000000);
 });
 
+UserSchema.virtual('accessToken').get(function() {
+  const accessToken = TokenService.encode({ id: this.id });
+  return accessToken;
+});
+
 export interface IUser extends Document {
   id: string;
   phone?: string;
@@ -62,6 +87,8 @@ export interface IUser extends Document {
   heightInCM?: number;
   weightInKG?: number;
   ageInYear?: number;
+  isAcceptAgreement?: boolean;
+  emailConfirmed?: boolean;
 }
 
 export enum USER_PROVIDER {

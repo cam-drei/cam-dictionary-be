@@ -16,6 +16,7 @@ input UpdateUserInput {
   weightUnit: String
   weightValue: Int
   fitnessGoal: String
+  isAcceptAgreement: Boolean
 }
 
 type User {
@@ -34,4 +35,6 @@ type User {
   providerUid: String
   providerAccessToken: String
   accessToken: String
+  isAcceptAgreement: Boolean
+  emailConfirmed: Boolean
 }

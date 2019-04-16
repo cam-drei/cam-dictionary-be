@@ -5,9 +5,18 @@ import { Model } from 'mongoose';
 import { IUser, USER_PROVIDER } from './schemas/user.schema';
 import { SocialLoginInput, UpdateUserInput } from 'src/graphql.schema';
 import { mongo } from 'mongoose';
+import { EmailConfirmationService } from './email-confirmation.service';
+import { EmailService } from '../common/email.service';
+
 @Injectable()
 export class UserService {
-  constructor(@Inject('User') private readonly UserModel: Model<IUser>) {}
+  constructor(
+    @Inject('User') private readonly UserModel: Model<IUser>,
+    @Inject('EmailConfirmationService')
+    private readonly emailConfirmationService: EmailConfirmationService,
+    @Inject('EmailService')
+    private readonly emailService: EmailService,
+  ) {}
 
   async getProfileBySocial(socialLogin: SocialLoginInput): Promise<IUser> {
     const existedUser = await this.UserModel.findOne({
@@ -45,8 +54,18 @@ export class UserService {
 
   async updateUserProfile(id: string, user: UpdateUserInput): Promise<IUser> {
     const _id = new mongo.ObjectId(id);
-    await this.UserModel.findOneAndUpdate({ _id }, user);
-    const updatedUser = await this.UserModel.findById(id);
-    return updatedUser ? updatedUser.toJSON() : updatedUser;
+    const doc = await this.UserModel.findOne({ _id });
+    doc.set(user);
+
+    if (doc.email && doc.isModified('email')) {
+      const emailConfirmation = await this.emailConfirmationService.createToken(
+        doc,
+      );
+      this.emailService.sendEmailConfirmation(emailConfirmation);
+    }
+
+    await doc.save();
+
+    return doc ? doc.toJSON() : doc;
   }
 }

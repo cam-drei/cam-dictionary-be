@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>FitApp community</title>
+    <style>
+      @import url('//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css');
+      .info-msg,
+      .success-msg,
+      .warning-msg,
+      .error-msg {
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 3px 3px 3px 3px;
+      }
+      .info-msg {
+        color: #059;
+        background-color: #bef;
+      }
+      .success-msg {
+        color: #270;
+        background-color: #dff2bf;
+      }
+      .warning-msg {
+        color: #9f6000;
+        background-color: #feefb3;
+      }
+      .error-msg {
+        color: #d8000c;
+        background-color: #ffbaba;
+      }
+
+      /* Just for CodePen styling - don't include if you copy paste */
+      html {
+        font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light',
+          'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+        font-weight: 300;
+        margin: 25px;
+      }
+    </style>
+  </head>
+  <body>
+    <% if(isSuccess){ %>
+      <div class="success-msg">
+        <i class="fa fa-check"></i> Your email has been successfully verified, opening Fitapp...
+      </div>
+    <% } else{ %>
+      <div class="error-msg">
+        <i class="fa fa-times-circle"></i> Invalid Token!
+      </div>
+    <% } %>
+
+    <% if(isSuccess){ %>
+      <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+      <script>
+        var isMobile = {
+          Android: function() {
+              return navigator.userAgent.match(/Android/i);
+          },
+          BlackBerry: function() {
+              return navigator.userAgent.match(/BlackBerry/i);
+          },
+          iOS: function() {
+              return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+          },
+          Opera: function() {
+              return navigator.userAgent.match(/Opera Mini/i);
+          },
+          Windows: function() {
+              return navigator.userAgent.match(/IEMobile/i);
+          },
+          any: function() {
+              return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+          }
+        };
+
+        $(document).ready(function() {
+          setTimeout(function(){
+            var appLink = isMobile.iOS()? "<%= iOSLink %>" : "<%= androidLink %>";
+            window.location.href = appLink;
+          }, 2000)
+        });
+      </script>
+    <% } %>
+  </body>
+</html>

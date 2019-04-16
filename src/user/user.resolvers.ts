@@ -10,7 +10,6 @@ import {
 } from '@nestjs/graphql';
 import { UpdateUserInput, User } from 'src/graphql.schema';
 import { GqlAuthGuard } from 'src/auth/gqlauth.guard';
-import { JWTAuth } from 'src/auth/auth.service';
 
 @Resolver('User')
 export class UserResolvers {
@@ -21,8 +20,10 @@ export class UserResolvers {
   @UseGuards(GqlAuthGuard)
   async getUserProfile(@Context() context: any): Promise<User> {
     const { user } = context.req;
-    this.logger.log('Get user profile with Id:', user.id);
-    return await this.userService.getProfileById(user.id);
+    this.logger.log(`Get user profile with Id:${user.id}`);
+    const response = await this.userService.getProfileById(user.id);
+    this.logger.log(`User: ${JSON.stringify(response)}`);
+    return response;
   }
 
   @Mutation('updateUser')
@@ -33,12 +34,14 @@ export class UserResolvers {
     userUpdateData: UpdateUserInput,
   ): Promise<User> {
     const { user } = context.req;
-    this.logger.log('update user profile with Id:', user.id);
+    this.logger.log(`Update user profile with Id:${user.id}`);
 
     const updatedUser = await this.userService.updateUserProfile(
       user.id,
       userUpdateData,
     );
+
+    this.logger.log(`User: ${JSON.stringify(updatedUser)}`);
 
     return updatedUser;
   }

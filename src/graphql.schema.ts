@@ -33,6 +33,7 @@ export class UpdateUserInput {
     weightUnit?: string;
     weightValue?: number;
     fitnessGoal?: string;
+    isAcceptAgreement?: boolean;
 }
 
 export class WorkoutGeneratorInput {
@@ -108,6 +109,8 @@ export class User {
     providerUid?: string;
     providerAccessToken?: string;
     accessToken?: string;
+    isAcceptAgreement?: boolean;
+    emailConfirmed?: boolean;
 }
 
 export class Workout {

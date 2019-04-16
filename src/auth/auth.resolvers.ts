@@ -24,7 +24,7 @@ export class AuthResolvers {
     if (!user) {
       user = await this.userService.createSocialProfile(args);
     }
-    return this.authService.generateUserWithAccessToken(user);
+    return user;
   }
 
   @Mutation('loginByGoogle')
@@ -34,7 +34,7 @@ export class AuthResolvers {
     if (!user) {
       user = await this.userService.createSocialProfile(args);
     }
-    return this.authService.generateUserWithAccessToken(user);
+    return user;
   }
 
   @Mutation('sendPasswordToPhone')
@@ -53,6 +53,6 @@ export class AuthResolvers {
   @Mutation('loginByPhone')
   async loginByPhone(@Args('params') params: PhoneLoginDto): Promise<User> {
     const user = await this.authService.loginByPhone(params);
-    return this.authService.generateUserWithAccessToken(user);
+    return user;
   }
 }
