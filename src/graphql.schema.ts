@@ -26,6 +26,7 @@ export class SocialLoginInput {
 export class UpdateUserInput {
     name?: string;
     email?: string;
+    displayName?: string;
     gender?: string;
     birthday?: string;
     heightUnit?: string;
@@ -72,6 +73,10 @@ export abstract class IMutation {
 
     abstract createCat(createCatInput?: CreateCatInput): Cat | Promise<Cat>;
 
+    abstract generateInvitationLink(method: string): string | Promise<string>;
+
+    abstract sendInvitationEmail(toEmails: string[]): boolean | Promise<boolean>;
+
     abstract updateUser(user?: UpdateUserInput): User | Promise<User>;
 }
 
@@ -98,6 +103,7 @@ export class User {
     phone?: string;
     name?: string;
     email?: string;
+    displayName?: string;
     gender?: string;
     birthday?: string;
     heightUnit?: string;

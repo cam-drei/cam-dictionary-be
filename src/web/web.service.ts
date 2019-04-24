@@ -12,6 +12,13 @@ export class WebService {
     });
   }
 
+  public async renderInvitation(): Promise<string> {
+    return this.renderTemplate('invitation', {
+      androidLink: process.env.FITAPP_ANDROID_LINK,
+      iOSLink: process.env.FITAPP_IOS_LINK,
+    });
+  }
+
   private async renderTemplate(
     template: string,
     params: object = {},

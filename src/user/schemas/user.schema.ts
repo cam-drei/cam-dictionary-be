@@ -5,7 +5,20 @@ export const UserSchema = new Schema({
   uid: String,
   phone: String,
   name: String,
-  email: String,
+  email: {
+    type: String,
+    trim: true,
+    index: true,
+    unique: true,
+    sparse: true,
+  },
+  displayName: {
+    type: String,
+    trim: true,
+    index: true,
+    unique: true,
+    sparse: true,
+  },
   gender: String,
   birthday: String,
   heightUnit: String,
@@ -74,6 +87,7 @@ export interface IUser extends Document {
   phone?: string;
   name?: string;
   email?: string;
+  displayName?: string;
   gender?: GENDER;
   birthday?: string;
   fitnessGoal?: FITNESS_GOAL;

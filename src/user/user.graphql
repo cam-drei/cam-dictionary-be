@@ -9,6 +9,7 @@ type Mutation {
 input UpdateUserInput {
   name: String
   email: String
+  displayName: String
   gender: String
   birthday: String
   heightUnit: String
@@ -24,6 +25,7 @@ type User {
   phone: String
   name: String
   email: String
+  displayName: String
   gender: String
   birthday: String
   heightUnit: String

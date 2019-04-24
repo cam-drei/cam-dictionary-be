@@ -6,15 +6,34 @@ import { renderFile } from 'ejs';
 import { join, dirname } from 'path';
 import { IEmailConfirmation } from 'src/user/schemas/email-confirmation.schema';
 import { URL } from 'url';
+import { IUser } from 'src/user/schemas/user.schema';
 @Injectable()
 export class EmailService {
   private readonly logger = new Logger(EmailService.name);
 
-  async sendEmailConfirmation(
+  public async inviteFriends(
+    toEmails: string[],
+    referrer: IUser,
+    invitationLink: string,
+  ): Promise<void> {
+    const referrerName = referrer.name || 'Your Friend';
+    const emailPayload = new EmailPayload();
+    emailPayload.to = toEmails;
+    emailPayload.subject = `${referrerName} Invites You To Join FitApp Community`;
+
+    emailPayload.html = await this.renderTemplate('invite-friends', {
+      referrerName,
+      invitationLink,
+    });
+
+    await this.send(emailPayload);
+  }
+
+  public async sendEmailConfirmation(
     emailConfirmation: IEmailConfirmation,
   ): Promise<void> {
     const emailPayload = new EmailPayload();
-    emailPayload.to = emailConfirmation.user.email;
+    emailPayload.to = [emailConfirmation.user.email];
     emailPayload.subject = 'FitApp Community Email Confirmation';
 
     const confirmUrl = new URL(
@@ -49,7 +68,7 @@ export class EmailService {
     const params: any = {
       Destination: {
         CcAddresses: [],
-        ToAddresses: [payload.to.toLowerCase()],
+        ToAddresses: payload.to,
       },
       Message: {
         /* required */

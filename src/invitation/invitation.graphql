@@ -1,0 +1,7 @@
+type Mutation {
+  generateInvitationLink(method: String!): String!
+}
+
+type Mutation {
+  sendInvitationEmail(toEmails: [String!]!): Boolean!
+}

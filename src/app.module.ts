@@ -8,6 +8,7 @@ import { CommonModule } from './common/common.module';
 import { WorkoutModule } from './workout/workout.module';
 import { EatFitModule } from './eatfit/eatfit.module';
 import { WebModule } from './web/web.module';
+import { InvitationModule } from './invitation/invitation.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { WebModule } from './web/web.module';
     WorkoutModule,
     EatFitModule,
     WebModule,
+    InvitationModule,
   ],
 })
 export class ApplicationModule {}
