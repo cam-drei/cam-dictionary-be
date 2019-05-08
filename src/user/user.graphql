@@ -18,6 +18,8 @@ input UpdateUserInput {
   weightValue: Int
   fitnessGoal: String
   isAcceptAgreement: Boolean
+  bodyFat: Int
+  pal: Float
 }
 
 type User {
@@ -39,4 +41,8 @@ type User {
   accessToken: String
   isAcceptAgreement: Boolean
   emailConfirmed: Boolean
+  bodyFat: Int
+  pal: Float
+  bmiIndex: Float
+  wsrIndex: Float
 }

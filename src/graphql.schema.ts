@@ -35,6 +35,8 @@ export class UpdateUserInput {
     weightValue?: number;
     fitnessGoal?: string;
     isAcceptAgreement?: boolean;
+    bodyFat?: number;
+    pal?: number;
 }
 
 export class WorkoutGeneratorInput {
@@ -117,6 +119,10 @@ export class User {
     accessToken?: string;
     isAcceptAgreement?: boolean;
     emailConfirmed?: boolean;
+    bodyFat?: number;
+    pal?: number;
+    bmiIndex?: number;
+    wsrIndex?: number;
 }
 
 export class Workout {

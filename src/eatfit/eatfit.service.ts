@@ -1,10 +1,8 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { EatFit, Meal } from 'src/graphql.schema';
-import { IUser, FITNESS_GOAL, GENDER } from 'src/user/schemas/user.schema';
+import { IUser, FITNESS_GOAL, GENDER, BODY_FAT } from 'src/user/schemas/user.schema';
 
-const BODY_FAT = 0.15;
-const PAL = 1.375;
 const PROTEIN_MULTIPLIER = 1;
 const FAT_MULTIPLIER = 0.25;
 
@@ -79,18 +77,19 @@ export class EatFitService {
   }
 
   private LBM(user: IUser): number {
-    return (1 - BODY_FAT) * user.weightInKG;
+    return (1 - (user.bodyFat / 100)) * user.weightInKG;
   }
 
   private RMR(user: IUser): number {
-    return (370 + 21.6 * this.LBM(user)) * (1 - this.goal(user)) * PAL;
+    return (370 + 21.6 * this.LBM(user)) * (1 - this.goal(user)) * user.pal;
   }
 
   private TDEE(user: IUser): number {
-    if (BODY_FAT) {
-      return PAL * this.RMR(user);
+    const { pal } = user;
+    if (user.bodyFat !== BODY_FAT.NOT_SURE) {
+      return pal * this.RMR(user);
     } else {
-      return PAL * this.BMR(user);
+      return pal * this.BMR(user);
     }
   }
 

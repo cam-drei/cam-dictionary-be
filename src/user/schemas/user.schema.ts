@@ -1,6 +1,48 @@
 import { Document, Schema } from 'mongoose';
 import { TokenService } from 'src/auth/token.service';
 
+export enum USER_PROVIDER {
+  PHONE = 'Phone',
+  FACEBOOK = 'Facebook',
+  GOOGLE = 'Google',
+}
+
+export enum FITNESS_GOAL {
+  LOSE = 'LOSE',
+  STAY = 'STAY',
+  GAIN = 'GAIN',
+}
+
+export enum GENDER {
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
+}
+
+export enum HEIGHT_UNIT {
+  INCH = 'INCH',
+  CM = 'CM',
+}
+
+export enum WEIGHT_UNIT {
+  KG = 'KG',
+  LBS = 'LBS',
+}
+
+export enum PAL {
+  LOW = 1.2,
+  MEDIUM = 1.375,
+  HIGH = 1.55,
+  INTENSE = 2.25,
+}
+
+export enum BODY_FAT {
+  TEN = 10,
+  FIFTEEN = 15,
+  TWENTY = 20,
+  TWENTY_FIVE = 25,
+  NOT_SURE = 0,
+}
+
 export const UserSchema = new Schema({
   uid: String,
   phone: String,
@@ -25,6 +67,8 @@ export const UserSchema = new Schema({
   heightValue: Number,
   weightUnit: String,
   weightValue: Number,
+  waistSizeUnit: String,
+  waistSizeValue: Number,
   fitnessGoal: String,
   provider: String,
   providerAccessToken: String,
@@ -36,6 +80,14 @@ export const UserSchema = new Schema({
   emailConfirmed: {
     type: Boolean,
     default: false,
+  },
+  pal: {
+    type: Number,
+    default: PAL.MEDIUM,
+  },
+  bodyFat: {
+    type: Number,
+    default: BODY_FAT.FIFTEEN,
   },
 });
 
@@ -62,6 +114,14 @@ UserSchema.virtual('heightInCM').get(function() {
   }
 });
 
+UserSchema.virtual('heightInInch').get(function() {
+  if (this.heightUnit === HEIGHT_UNIT.INCH) {
+    return this.heightValue;
+  } else {
+    return this.heightValue * 0.393701;
+  }
+});
+
 UserSchema.virtual('weightInKG').get(function() {
   if (this.weightUnit === WEIGHT_UNIT.KG) {
     return this.weightValue;
@@ -80,6 +140,20 @@ UserSchema.virtual('ageInYear').get(function() {
 UserSchema.virtual('accessToken').get(function() {
   const accessToken = TokenService.encode({ id: this.id });
   return accessToken;
+});
+
+UserSchema.virtual('bmiIndex').get(function() {
+  // BMI = weight (kg) ÷ height2 (m2)
+  const weightInKG = this.get('weightInKG') || 0;
+  const heightInM = (this.get('heightInCM') || 0) / 100;
+  return heightInM === 0 ? 0 : weightInKG / Math.pow(heightInM, 2);
+});
+
+UserSchema.virtual('wsrIndex').get(function() {
+  // WSR = waist size (in) / height (in)
+  const waistSizeValue = this.get('waistSizeValue') || 32;
+  const heightInInch = this.get('heightInInch') || 0;
+  return heightInInch === 0 ? 0 : waistSizeValue / heightInInch;
 });
 
 export interface IUser extends Document {
@@ -103,31 +177,6 @@ export interface IUser extends Document {
   ageInYear?: number;
   isAcceptAgreement?: boolean;
   emailConfirmed?: boolean;
-}
-
-export enum USER_PROVIDER {
-  PHONE = 'Phone',
-  FACEBOOK = 'Facebook',
-  GOOGLE = 'Google',
-}
-
-export enum FITNESS_GOAL {
-  LOSE = 'LOSE',
-  STAY = 'STAY',
-  GAIN = 'GAIN',
-}
-
-export enum GENDER {
-  MALE = 'MALE',
-  FEMALE = 'FEMALE',
-}
-
-export enum HEIGHT_UNIT {
-  INCH = 'INCH',
-  CM = 'CM',
-}
-
-export enum WEIGHT_UNIT {
-  KG = 'KG',
-  LBS = 'LBS',
+  bodyFat: BODY_FAT;
+  pal: PAL;
 }
