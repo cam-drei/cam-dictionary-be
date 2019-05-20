@@ -1,3 +1,10 @@
+export class AddMealInput {
+    type: string;
+    calories: number;
+    time: number;
+    isDone?: boolean;
+}
+
 export class CreateCatInput {
     name?: string;
     age?: number;
@@ -21,6 +28,14 @@ export class SocialLoginInput {
     providerUid: string;
     providerAccessToken: string;
     provider?: string;
+}
+
+export class UpdateMealInput {
+    id: string;
+    type?: string;
+    calories?: number;
+    time?: number;
+    isDone?: boolean;
 }
 
 export class UpdateUserInput {
@@ -55,13 +70,15 @@ export class EatFit {
     carbs: number;
     fat: number;
     protein: number;
-    meals?: Meal[];
+    totalCalories: number;
 }
 
 export class Meal {
-    name: string;
+    id: string;
+    type: string;
     calories: number;
-    time: string;
+    time: number;
+    isDone: boolean;
 }
 
 export abstract class IMutation {
@@ -74,6 +91,12 @@ export abstract class IMutation {
     abstract loginByPhone(params?: PhoneLoginInput): User | Promise<User>;
 
     abstract createCat(createCatInput?: CreateCatInput): Cat | Promise<Cat>;
+
+    abstract addMeal(meal: AddMealInput): Meal | Promise<Meal>;
+
+    abstract updateMeal(meal: UpdateMealInput): Meal | Promise<Meal>;
+
+    abstract removeMeal(id: string): boolean | Promise<boolean>;
 
     abstract generateInvitationLink(method: string): string | Promise<string>;
 
@@ -88,6 +111,8 @@ export abstract class IQuery {
     abstract cat(id: string): Cat | Promise<Cat>;
 
     abstract generateEatFit(): EatFit | Promise<EatFit>;
+
+    abstract meals(time: number): Meal[] | Promise<Meal[]>;
 
     abstract user(): User | Promise<User>;
 

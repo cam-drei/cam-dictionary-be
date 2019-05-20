@@ -1,16 +1,40 @@
 type Query {
   generateEatFit: EatFit
+  meals(time: Float!): [Meal]!
+}
+
+type Mutation {
+  addMeal(meal: AddMealInput!): Meal
+  updateMeal(meal: UpdateMealInput!): Meal
+  removeMeal(id: String!): Boolean!
 }
 
 type EatFit {
   carbs: Float!
   fat: Float!
   protein: Float!
-  meals: [Meal]!
+  totalCalories: Int!
 }
 
 type Meal {
-  name: String!
+  id: String!
+  type: String!
   calories: Int!
-  time: String!
+  time: Float!
+  isDone: Boolean!
+}
+
+input AddMealInput {
+  type: String!
+  calories: Int!
+  time: Float!
+  isDone: Boolean
+}
+
+input UpdateMealInput {
+  id: String!
+  type: String
+  calories: Int
+  time: Float
+  isDone: Boolean
 }

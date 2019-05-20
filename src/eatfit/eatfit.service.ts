@@ -1,7 +1,12 @@
-import { Injectable, Inject } from '@nestjs/common';
-import { Model } from 'mongoose';
-import { EatFit, Meal } from 'src/graphql.schema';
-import { IUser, FITNESS_GOAL, GENDER, BODY_FAT } from 'src/user/schemas/user.schema';
+import { Injectable } from '@nestjs/common';
+import { EatFit } from 'src/graphql.schema';
+import * as _ from 'lodash';
+import {
+  IUser,
+  FITNESS_GOAL,
+  GENDER,
+  BODY_FAT,
+} from 'src/user/schemas/user.schema';
 
 const PROTEIN_MULTIPLIER = 1;
 const FAT_MULTIPLIER = 0.25;
@@ -27,22 +32,9 @@ export class EatFitService {
       carbs: carbsRate,
       fat: fatRate,
       protein: proteinRate,
-      meals: this.generateMeals(user),
+      totalCalories: _.round(total),
     };
     return result;
-  }
-
-  private generateMeals(user: IUser): Meal[] {
-    const TDEE = this.TDEE(user);
-    const breakfast = Math.floor(TDEE * 0.2);
-    const lunch = Math.floor(TDEE * 0.35);
-    const diner = Math.floor(TDEE * 0.45);
-
-    return [
-      { calories: breakfast, name: 'Breakfast', time: '8:00' },
-      { calories: lunch, name: 'Lunch', time: '13:00' },
-      { calories: diner, name: 'Dinner', time: '18:30' },
-    ];
   }
 
   private goal(user: IUser): number {
@@ -77,7 +69,7 @@ export class EatFitService {
   }
 
   private LBM(user: IUser): number {
-    return (1 - (user.bodyFat / 100)) * user.weightInKG;
+    return (1 - user.bodyFat / 100) * user.weightInKG;
   }
 
   private RMR(user: IUser): number {
