@@ -20,6 +20,7 @@ input UpdateUserInput {
   isAcceptAgreement: Boolean
   bodyFat: Int
   pal: Float
+  waistSize: Int
 }
 
 type User {
@@ -45,4 +46,5 @@ type User {
   pal: Float
   bmiIndex: Float
   wsrIndex: Float
+  waistSize: Int
 }

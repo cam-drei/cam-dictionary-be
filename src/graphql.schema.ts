@@ -52,6 +52,7 @@ export class UpdateUserInput {
     isAcceptAgreement?: boolean;
     bodyFat?: number;
     pal?: number;
+    waistSize?: number;
 }
 
 export class WorkoutGeneratorInput {
@@ -148,6 +149,7 @@ export class User {
     pal?: number;
     bmiIndex?: number;
     wsrIndex?: number;
+    waistSize?: number;
 }
 
 export class Workout {

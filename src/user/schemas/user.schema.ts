@@ -67,8 +67,10 @@ export const UserSchema = new Schema({
   heightValue: Number,
   weightUnit: String,
   weightValue: Number,
-  waistSizeUnit: String,
-  waistSizeValue: Number,
+  waistSize: {
+    type: Number,
+    default: 32,
+  },
   fitnessGoal: String,
   provider: String,
   providerAccessToken: String,
@@ -151,9 +153,9 @@ UserSchema.virtual('bmiIndex').get(function() {
 
 UserSchema.virtual('wsrIndex').get(function() {
   // WSR = waist size (in) / height (in)
-  const waistSizeValue = this.get('waistSizeValue') || 32;
+  const waistSize = this.get('waistSize');
   const heightInInch = this.get('heightInInch') || 0;
-  return heightInInch === 0 ? 0 : waistSizeValue / heightInInch;
+  return heightInInch === 0 ? 0 : waistSize / heightInInch;
 });
 
 export interface IUser extends Document {
