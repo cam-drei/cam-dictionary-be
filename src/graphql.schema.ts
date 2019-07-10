@@ -1,3 +1,4 @@
+/* tslint:disable */
 export class AddMealInput {
     type: string;
     calories: number;
@@ -115,9 +116,9 @@ export abstract class IQuery {
 
     abstract meals(time: number): Meal[] | Promise<Meal[]>;
 
-    abstract user(): User | Promise<User>;
-
     abstract generateWorkout(params?: WorkoutGeneratorInput): WorkoutGeneratorResultItem[] | Promise<WorkoutGeneratorResultItem[]>;
+
+    abstract user(): User | Promise<User>;
 
     abstract temp__(): boolean | Promise<boolean>;
 }

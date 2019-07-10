@@ -22,13 +22,6 @@ import { InvitationModule } from './invitation/invitation.module';
       context: ({ req }) => ({ req }),
     }),
     CatsModule,
-    AuthModule,
-    UserModule,
-    CommonModule,
-    WorkoutModule,
-    EatFitModule,
-    WebModule,
-    InvitationModule,
   ],
 })
 export class ApplicationModule {}
