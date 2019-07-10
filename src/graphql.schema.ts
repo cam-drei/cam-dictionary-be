@@ -112,13 +112,15 @@ export abstract class IQuery {
 
     abstract cat(id: string): Cat | Promise<Cat>;
 
+    abstract words(input?: string): Word[] | Promise<Word[]>;
+
     abstract generateEatFit(): EatFit | Promise<EatFit>;
 
     abstract meals(time: number): Meal[] | Promise<Meal[]>;
 
-    abstract generateWorkout(params?: WorkoutGeneratorInput): WorkoutGeneratorResultItem[] | Promise<WorkoutGeneratorResultItem[]>;
-
     abstract user(): User | Promise<User>;
+
+    abstract generateWorkout(params?: WorkoutGeneratorInput): WorkoutGeneratorResultItem[] | Promise<WorkoutGeneratorResultItem[]>;
 
     abstract temp__(): boolean | Promise<boolean>;
 }
@@ -151,6 +153,12 @@ export class User {
     bmiIndex?: number;
     wsrIndex?: number;
     waistSize?: number;
+}
+
+export class Word {
+    id?: string;
+    name?: string;
+    description?: string;
 }
 
 export class Workout {

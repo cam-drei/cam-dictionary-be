@@ -1,7 +1,7 @@
 import { ParseIntPipe, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
-import { Cat } from '../graphql.schema';
+import { Cat, Word } from '../graphql.schema';
 import { CatsGuard } from './cats.guard';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
@@ -24,6 +24,25 @@ export class CatsResolvers {
     id: number,
   ): Promise<Cat> {
     return await this.catsService.findOneById(id);
+  }
+
+  @Query('words')
+  async findWords(
+    @Args('input')
+    input: string,
+  ): Promise<Word[]> {
+    return [
+      {
+        id: 'kejke',
+        name: 'adei',
+        description: 'nguopi anh em',
+      },
+      {
+        id: 'awedwed',
+        name: input,
+        description: 'di choi anh em',
+      },
+    ];
   }
 
   @Mutation('createCat')

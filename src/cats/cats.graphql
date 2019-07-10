@@ -1,10 +1,17 @@
 type Query {
   getCats: [Cat]
   cat(id: ID!): Cat
+  words(input: String): [Word]
 }
 
 type Mutation {
   createCat(createCatInput: CreateCatInput): Cat
+}
+
+type Word {
+  id: String
+  name: String
+  description: String
 }
 
 type Subscription {
