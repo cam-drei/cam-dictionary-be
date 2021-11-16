@@ -27,7 +27,7 @@
     "@types/ejs": "^2.6.3",
     "@types/jsonwebtoken": "^8.3.2",
     "apollo-server-express": "^2.3.1",
-    "aws-sdk": "^2.417.0",
+    "aws-sdk": "^2.814.0",
     "class-transformer": "^0.2.0",
     "class-validator": "^0.9.1",
     "dotenv": "^6.2.0",
