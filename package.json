@@ -35,7 +35,7 @@
     "graphql": "^14.0.2",
     "jsonwebtoken": "^8.5.0",
     "lodash": "^4.17.11",
-    "moment": "^2.23.0",
+    "moment": "^2.29.4",
     "mongoose": "^5.4.19",
     "passport": "^0.4.0",
     "passport-http-bearer": "^1.0.1",
